@@ -27,6 +27,10 @@ function worktree() {
     return 1
   fi
 
+  if ! _worktree_check_version; then
+    return 1
+  fi
+
   local project_name; project_name="$1"
   local base_branch; base_branch="${2:-"$(worktree_base_branch)"}"
   local remote; remote="${3:-"$(worktree_remote)"}"
@@ -44,6 +48,10 @@ function worktree() {
 function worktree_create() {
   if [ $# -lt 1 ] || [ $# -gt 3 ]; then
     echo "Usage: $0 <project_name> [<base_branch>] [<remote>]"
+    return 1
+  fi
+
+  if ! _worktree_check_version; then
     return 1
   fi
 
@@ -101,6 +109,10 @@ function worktree_create() {
 function worktree_resume() {
   if [ $# -lt 1 ] || [ $# -gt 1 ]; then
     echo "Usage: $0 <project_name>"
+    return 1
+  fi
+
+  if ! _worktree_check_version; then
     return 1
   fi
 
@@ -182,6 +194,16 @@ function worktree_active_project_worktree() {
 #
 # Private API.
 #
+
+function _worktree_check_version() {
+  if git worktree --help >/dev/null 2>/dev/null; then
+    return 0
+  fi
+
+  echo Your current versions of git does not support the worktree command. >&2
+  echo Upgrade your version of git and try again. >&2
+  return 1
+}
 
 # Create a new worktree for a project.
 function _worktree_create() {

@@ -2,6 +2,10 @@
 
 Utilities to create and manage git worktrees.
 
+## Requirements
+
+`git` version 2.5 or newer (July 2015).
+
 ## Commands
 
 ### `worktree`
