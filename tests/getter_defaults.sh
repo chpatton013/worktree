@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-script_dir="$( builtin cd "$(dirname "${BASH_SOURCE[0]}")" && pwd )"
+script_dir="$(builtin cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$(dirname "$script_dir")/worktree.sh"
 
 [ "$(worktree_worktree_root)" == "$WORKTREE_DEFAULT_WORKTREE_ROOT" ]

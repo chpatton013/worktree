@@ -4,21 +4,21 @@
 
 # Override-values for invariants. These should be customized by users.
 #export WORKTREE_WORKTREE_ROOT=~/worktree
-#export WORKTREE_PRIMARY_PROJECT=master
-#export WORKTREE_BRANCH_NAME_PREFIX=
-#export WORKTREE_BRANCH_NAME_SUFFIX=
-#export WORKTREE_BASE_BRANCH=master
-#export WORKTREE_REMOTE=origin
+#export WORKTREE_PRIMARY_PROJECT="master"
+#export WORKTREE_BRANCH_NAME_PREFIX=""
+#export WORKTREE_BRANCH_NAME_SUFFIX=""
+#export WORKTREE_BASE_BRANCH="master"
+#export WORKTREE_REMOTE="origin"
 #export WORKTREE_ENVIRONMENT_ENTRYPOINT="echo Created worktree \$project_name at location \$project_dir"
 
 # Default-values for invariants. These should not be modified.
 export WORKTREE_DEFAULT_WORKTREE_ROOT=~/worktrees
-export WORKTREE_DEFAULT_PRIMARY_PROJECT=master
-export WORKTREE_DEFAULT_BRANCH_NAME_PREFIX=
-export WORKTREE_DEFAULT_BRANCH_NAME_SUFFIX=
-export WORKTREE_DEFAULT_BASE_BRANCH=master
-export WORKTREE_DEFAULT_REMOTE=origin
-export WORKTREE_DEFAULT_ENVIRONMENT_ENTRYPOINT="echo Created worktree \$project_name at location \$project_directory"
+export WORKTREE_DEFAULT_PRIMARY_PROJECT="master"
+export WORKTREE_DEFAULT_BRANCH_NAME_PREFIX=""
+export WORKTREE_DEFAULT_BRANCH_NAME_SUFFIX=""
+export WORKTREE_DEFAULT_BASE_BRANCH="master"
+export WORKTREE_DEFAULT_REMOTE="origin"
+export WORKTREE_DEFAULT_ENVIRONMENT_ENTRYPOINT='echo Created worktree $project_name at location $project_directory'
 
 # Create a new worktree and prepare shell to develop within.
 function worktree() {
@@ -31,9 +31,10 @@ function worktree() {
     return 1
   fi
 
-  local project_name; project_name="$1"
-  local base_branch; base_branch="${2:-"$(worktree_base_branch)"}"
-  local remote; remote="${3:-"$(worktree_remote)"}"
+  local project_name base_branch remote
+  project_name="$1"
+  base_branch="${2:-"$(worktree_base_branch)"}"
+  remote="${3:-"$(worktree_remote)"}"
   readonly project_name base_branch remote
 
   worktree_create "$project_name" "$base_branch" "$remote"
@@ -55,9 +56,10 @@ function worktree_create() {
     return 1
   fi
 
-  local project_name; project_name="$1"
-  local base_branch; base_branch="${2:-"$(worktree_base_branch)"}"
-  local remote; remote="${3:-"$(worktree_remote)"}"
+  local project_name base_branch remote
+  project_name="$1"
+  base_branch="${2:-"$(worktree_base_branch)"}"
+  remote="${3:-"$(worktree_remote)"}"
   readonly project_name base_branch remote
 
   if [ -z "$project_name" ]; then
@@ -116,8 +118,9 @@ function worktree_resume() {
     return 1
   fi
 
-  local project_name; project_name="$1"
-  local project_worktree; project_worktree="$(worktree_project_worktree "$project_name")"
+  local project_name project_worktree
+  project_name="$1"
+  project_worktree="$(worktree_project_worktree "$project_name")"
   readonly project_name project_worktree
 
   if [ -z "$project_worktree" ]; then
@@ -161,9 +164,10 @@ function worktree_branch_name() {
     return 1
   fi
 
-  local project_name; project_name="$1";
-  local branch_name_prefix; branch_name_prefix="$(worktree_branch_name_prefix)"
-  local branch_name_suffix; branch_name_suffix="$(worktree_branch_name_suffix)"
+  local project_name branch_name_prefix branch_name_suffix
+  project_name="$1"
+  branch_name_prefix="$(worktree_branch_name_prefix)"
+  branch_name_suffix="$(worktree_branch_name_suffix)"
   readonly project_name branch_name_prefix branch_name_suffix
 
   echo $branch_name_prefix$project_name$branch_name_suffix
@@ -176,7 +180,9 @@ function worktree_project_worktree() {
     return 1
   fi
 
-  local project_name; project_name="$1"; readonly project_name
+  local project_name
+  project_name="$1"
+  readonly project_name
 
   echo $(worktree_worktree_root)/$project_name
 }
@@ -212,10 +218,11 @@ function _worktree_create() {
     return 1
   fi
 
-  local primary_worktree; primary_worktree="$1"
-  local project_worktree; project_worktree="$2"
-  local branch_name; branch_name="$3"
-  local remote; remote="$4"
+  local primary_worktree project_worktree branch_name remote
+  primary_worktree="$1"
+  project_worktree="$2"
+  branch_name="$3"
+  remote="$4"
   readonly primary_worktree project_worktree branch_name remote
 
   (
@@ -236,8 +243,9 @@ function _worktree_resume() {
     return 1
   fi
 
-  local project_directory; project_directory="$1"
-  local project_name; project_name="$2"
+  local project_directory project_name
+  project_directory="$1"
+  project_name="$2"
   readonly project_directory project_name
 
   export WORKTREE_ACTIVE_PROJECT="$project_name"

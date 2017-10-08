@@ -6,7 +6,7 @@ function git() {
   $_git
 }
 
-script_dir="$( builtin cd "$(dirname "${BASH_SOURCE[0]}")" && pwd )"
+script_dir="$(builtin cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$(dirname "$script_dir")/worktree.sh"
 
 _git=true
