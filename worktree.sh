@@ -3,21 +3,21 @@
 #
 
 # Override-values for invariants. These should be customized by users.
-#export WORKTREE_WORKTREE_ROOT=~/worktree
-#export WORKTREE_PRIMARY_PROJECT="master"
-#export WORKTREE_BRANCH_NAME_PREFIX=""
-#export WORKTREE_BRANCH_NAME_SUFFIX=""
-#export WORKTREE_BASE_BRANCH="master"
-#export WORKTREE_REMOTE="origin"
+#export WORKTREE_WORKTREE_ROOT=~/worktrees
+#export WORKTREE_PRIMARY_PROJECT=master
+#export WORKTREE_BRANCH_NAME_PREFIX=
+#export WORKTREE_BRANCH_NAME_SUFFIX=
+#export WORKTREE_BASE_BRANCH=master
+#export WORKTREE_REMOTE=origin
 #export WORKTREE_ENVIRONMENT_ENTRYPOINT="echo Created worktree \$project_name at location \$project_dir"
 
 # Default-values for invariants. These should not be modified.
 export WORKTREE_DEFAULT_WORKTREE_ROOT=~/worktrees
-export WORKTREE_DEFAULT_PRIMARY_PROJECT="master"
-export WORKTREE_DEFAULT_BRANCH_NAME_PREFIX=""
-export WORKTREE_DEFAULT_BRANCH_NAME_SUFFIX=""
-export WORKTREE_DEFAULT_BASE_BRANCH="master"
-export WORKTREE_DEFAULT_REMOTE="origin"
+export WORKTREE_DEFAULT_PRIMARY_PROJECT=master
+export WORKTREE_DEFAULT_BRANCH_NAME_PREFIX=
+export WORKTREE_DEFAULT_BRANCH_NAME_SUFFIX=
+export WORKTREE_DEFAULT_BASE_BRANCH=master
+export WORKTREE_DEFAULT_REMOTE=origin
 export WORKTREE_DEFAULT_ENVIRONMENT_ENTRYPOINT='echo Created worktree $project_name at location $project_directory'
 
 # Create a new worktree and prepare shell to develop within.
@@ -229,7 +229,7 @@ function _worktree_create() {
     set -e
 
     builtin cd "$primary_worktree"
-    git fetch
+    git fetch "$remote" "$base_branch"
     git worktree add -b "$branch_name" "$project_worktree" "$remote/$base_branch"
     git config "branch.$branch_name.remote" "$remote"
     git config "branch.$branch_name.merge" "refs/heads/$branch_name"
